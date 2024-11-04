@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>হাট বসার সময়সূচি</title>
+    <style>
+        body {
+            font-family: 'SolaimanLipi', sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #3a86ff;
+            animation: fadeIn 2s;
+        }
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        input[type="text"]:focus {
+            border-color: #3a86ff;
+            box-shadow: 0 0 8px rgba(58, 134, 255, 0.2);
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e0f7fa;
+            border-radius: 5px;
+            display: none;
+            animation: slideIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        footer {
+            margin-top: 40px;
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>হাট বসার সময়সূচি</h1>
+    <div class="search-container">
+        <input type="text" id="place-search" placeholder="জায়গার নাম লিখুন...">
+        <input type="text" id="day-search" placeholder="বারের নাম লিখুন...">
+        <div class="results" id="result"></div>
+    </div>
+    <footer>&copy; 2024 - Designed by Ali Hosen</footer>
+
+    <script>
+        const schedule = {
+            "সারমারা": ["রবিবার", "বুধবার"],
+            "ঝিলাইগাতি": ["রবিবার", "বুধবার"],
+            "ঝগড়ারচর": ["বুধবার", "শনিবার"],
+            "ঝালুরচর": ["সোমবার", "বৃহস্পতিবার"],
+            "তিনানি": ["বুধবার", "শনিবার"],
+            "ভায়ডাঙ্গা": ["শনিবার", "বুধবার", "সোমবার"],
+            "পাইকড়া": ["সোমবার", "শুক্রবার"],
+            "নাপ্তেচর": ["সোমবার", "শুক্রবার"],
+            "খেয়ারচর": ["সোমবার", "শুক্রবার"],
+            "কুসনিপাড়া": ["সোমবার", "শুক্রবার"],
+            "ধানশাইল": ["সোমবার", "শুক্রবার"],
+            "নঙ্গরপাড়া": ["মঙ্গলবার", "শুক্রবার"],
+            "নালিতা৬": ["শনিবার", "মঙ্গলবার"],
+            "কামালপুর": ["শনিবার", "মঙ্গলবার"],
+            "নইমিয়ে বাজার": ["শনিবার", "মঙ্গলবার"],
+            "নন্নি": ["বুধবার"],
+            "সালমারা ডুগডুগি": ["রবিবার", "বুধবার"],
+            "বাহাকুড়০": ["শনিবার", "মঙ্গলবার"],
+            "রানীশিমুল": ["শুক্রবার"],
+            "কাঠারবিল": ["শনিবার", "মঙ্গলবার"],
+            "তারাডিয়া": ["শনিবার", "মঙ্গলবার"],
+            "সানন্দবাড়ি": ["রবিবার"],
+            "বাইলেমারি": ["সোমবার", "বুধবার"],
+            "আজিতপুর": ["মঙ্গলবার"],
+            "ডিগ্রিচর": ["সোমবার", "শুক্রবার"],
+            "কাউনেচর": ["শুক্রবার", "সোমবার"],
+            "শ্রীবরদী": ["শনিবার", "মঙ্গলবার"]
+        };
+
+        document.getElementById("place-search").addEventListener("input", function() {
+            const place = this.value.trim();
+            displayResults(place ? searchByPlace(place) : null);
+        });
+
+        document.getElementById("day-search").addEventListener("input", function() {
+            const day = this.value.trim();
+            displayResults(day ? searchByDay(day) : null);
+        });
+
+        function searchByPlace(place) {
+            const days = schedule[place];
+            return days ? `${place} এ হাট বসে: ${days.join(", ")}` : "কোন তথ্য পাওয়া যায়নি।";
+        }
+
+        function searchByDay(day) {
+            const places = Object.keys(schedule).filter(p => schedule[p].includes(day));
+            return places.length > 0 ? `${day} বার এ হাট বসে: ${places.join(", ")}` : "কোন তথ্য পাওয়া যায়নি।";
+        }
+
+        function displayResults(result) {
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = result ? result : "";
+            resultDiv.style.display = result ? "block" : "none";
+        }
+    </script>
+</body>
+</html>
